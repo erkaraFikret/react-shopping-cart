@@ -10,9 +10,15 @@ const App = () => {
     setItems()
   }, [])
 
+  useEffect(() => {
+    console.log(allItems);
+
+  }, [allItems])
+
+
 
   return (
-    <h1 className="grid place-items-center py-20">
+    <div className="grid place-items-center py-20">
       <h1 className="text-5xl italic text-gray-500 mb-16">
         Fashion Buzz: Top Trends to Elevate Your Look
       </h1>
@@ -23,7 +29,7 @@ const App = () => {
           )
         })}
       </div>
-    </h1>
+    </div>
   )
 }
 

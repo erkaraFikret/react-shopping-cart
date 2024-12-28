@@ -1,12 +1,12 @@
 import { useCart } from "../context/cartContext"
 
 
-const CartButton = ({ item }) => {
+const CartButton = ({ item, fromCart}) => {
 
-    const { addToCart, removeFromCart } = useCart();
+    const { addToCart, removeFromCart, updateQuantity } = useCart();
 
     return (
-        <div className="w-max absolute right-5 top-5">
+        <div className={`w-max absolute right-5 top-5 ${fromCart && "scale-90"}`}>
             <div className="space-x-3">
                 {!item.inCart ? (<button
                     type="button"
@@ -16,12 +16,18 @@ const CartButton = ({ item }) => {
                     + Add to cart
                 </button>) : (<div>
                     <div className="flex">
-                        <button className="rounded-lg border px-3">-</button>
+                        <button className="rounded-lg border px-3" onClick={(() => {
+                            if (item.quantity === 1) {
+                                removeFromCart(item)
+                            } else {
+                                updateQuantity({ cartItem: item, amount: -1 })
+                            }
+                        })}>-</button>
                         <p className="flex items-center gap-x-1 mx-1">
-                            <span className="min-w-7 bg-green-100 grid place-items-center border rounded-full">1</span>
+                            <span className="min-w-7 bg-green-100 grid place-items-center border rounded-full">{item.quantity}</span>
                             <span className="text-sm">in cart</span>
                         </p>
-                        <button className="rounded-lg border px-3">+</button>
+                        <button className="rounded-lg border px-3" onClick={() => updateQuantity({ cartItem: item, amount: 1 })}>+</button>
                     </div>
                     <button
                         className="bg-pink-300 mx-auto mt-2 block rounded-md px-2 py-1 text-xs text-white hover:bg-pink-400 transition-colors"
